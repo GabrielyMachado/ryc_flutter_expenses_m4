@@ -24,30 +24,24 @@ class TransactionList extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.purple,
+                    color: Theme.of(context).colorScheme.primary,
                     width: 2,
                   ),
                 ),
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   'R\$ ${tr.value.toStringAsFixed(2).replaceAll('.', ',')}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.purple,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    tr.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(tr.title, style: Theme.of(context).textTheme.titleLarge),
                   Text(
                     DateFormat('d MMM y').format(tr.date),
                     style: const TextStyle(color: Colors.grey),
