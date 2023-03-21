@@ -49,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions
@@ -89,12 +90,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       actions: [
+        if (isLandscape)
+          IconButton(
+            onPressed: () => setState(() {
+              _showChart = !_showChart;
+            }),
+            icon: Icon(_showChart ? Icons.list : Icons.bar_chart_rounded),
+          ),
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
           icon: const Icon(Icons.add),
-        )
+        ),
       ],
       title: const Text('Despesas pessoais'),
     );
@@ -110,14 +121,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: availableHeight * 0.3,
-                    child: Chart(_recentTransactions),
-                  ),
-                  Container(
-                    height: availableHeight * 0.7,
-                    child: TransactionList(_transactions, _deleteTransaction),
-                  ),
+                  if (_showChart || !isLandscape)
+                    Container(
+                      height: isLandscape
+                          ? availableHeight * 0.75
+                          : availableHeight * 0.3,
+                      child: Chart(_recentTransactions),
+                    ),
+                  if (!_showChart || !isLandscape)
+                    Container(
+                      height: availableHeight * 0.7,
+                      child: TransactionList(_transactions, _deleteTransaction),
+                    ),
                 ]),
           ),
         ],
