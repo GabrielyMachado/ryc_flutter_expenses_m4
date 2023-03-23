@@ -82,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _openTransactionFormModal(context) {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (_) {
           return TransactionForm(_addTransaction);
